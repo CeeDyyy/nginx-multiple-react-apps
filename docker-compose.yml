@@ -1,0 +1,31 @@
+version: '3'
+services: 
+    service-one:
+        build: 
+            context: ./service-one
+            dockerfile: Dockerfile
+        image: service/one
+        container_name: service_one
+        ports: 
+            - "3001:80"
+        volumes: 
+            - ./service-one/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+    service-two:
+        build: 
+            context: ./service-two
+            dockerfile: Dockerfile
+        image: service/two
+        container_name: service_two
+        ports: 
+            - "3002:80"
+        volumes: 
+            - ./service-two/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+    nginx-proxy:
+        image: nginx
+        container_name: nginx_proxy
+        volumes:
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        ports:
+            - "80:80"
